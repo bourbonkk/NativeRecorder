@@ -1,10 +1,10 @@
 # NativeRecorder
 
 
-This project is a native call recorder supported up to Android 8.1, supports flac
+NativeRecorder is a native call recorder supported up to Android 8.1, supports flac
 Tested on samsung phone.  
 
-I made a fake dlopen through hacking. However, it cannot be used from the Android 9 version.  
+I made a fake_dlopen through hacking. However, it cannot be used from the Android 9 version.  
 
 So.. I made it public.
 
