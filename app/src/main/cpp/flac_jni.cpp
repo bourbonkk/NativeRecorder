@@ -191,43 +191,43 @@ decoder_error_callback(const FLAC__StreamDecoder *decoder, FLAC__StreamDecoderEr
     log_info("ERROR: running decoder: %s\n", FLAC__StreamDecoderErrorStatusString[status]);
 }
 
-//extern "C"
-//JNIEXPORT jobject JNICALL
-//Java_com_bourbonkk_nativerecorder_flac_FlacDecoder_init(JNIEnv *env, jobject instance, jstring input_file) {
-//    FLAC__bool ok = true;
-//    FLAC__StreamDecoder *decoder = 0;
-//    FLAC__StreamDecoderInitStatus init_status;
-//
-//    if ((decoder = FLAC__stream_decoder_new()) == NULL) {
-//        log_info("ERROR: allocating decoder\n");
-//        return NULL;
-//    }
-//
-//    (void) FLAC__stream_decoder_set_md5_checking(decoder, true);
-//
-//    const char *input_file_chars = env->GetStringUTFChars(input_file, 0);
-//    DecoderClientData *client_data = new DecoderClientData(env, instance);
-//    init_status = FLAC__stream_decoder_init_file(decoder, input_file_chars, decoder_write_callback,
-//                                                 metadata_callback, decoder_error_callback,
-//                                                 client_data);
-//    if (init_status != FLAC__STREAM_DECODER_INIT_STATUS_OK) {
-//        log_info("ERROR: initializing decoder: %s\n",
-//             FLAC__StreamDecoderInitStatusString[init_status]);
-//        ok = false;
-//    }
-//
-//    if (ok) {
-//        ok = FLAC__stream_decoder_process_until_end_of_metadata(decoder);
-//    }
-//
-//    if (ok) {
-//        env->SetLongField(instance, decoder_field, (jlong) decoder);
-//        env->SetLongField(instance, decoder_client_data_field, (jlong) client_data);
-//        return client_data->result;
-//    } else {
-//        return NULL;
-//    }
-//}
+extern "C"
+JNIEXPORT jobject JNICALL
+Java_com_bourbonkk_nativerecorder_flac_FlacDecoder_init(JNIEnv *env, jobject instance, jstring input_file) {
+    FLAC__bool ok = true;
+    FLAC__StreamDecoder *decoder = 0;
+    FLAC__StreamDecoderInitStatus init_status;
+
+    if ((decoder = FLAC__stream_decoder_new()) == NULL) {
+        log_info("ERROR: allocating decoder\n");
+        return NULL;
+    }
+
+    (void) FLAC__stream_decoder_set_md5_checking(decoder, true);
+
+    const char *input_file_chars = env->GetStringUTFChars(input_file, 0);
+    DecoderClientData *client_data = new DecoderClientData(env, instance);
+    init_status = FLAC__stream_decoder_init_file(decoder, input_file_chars, decoder_write_callback,
+                                                 metadata_callback, decoder_error_callback,
+                                                 client_data);
+    if (init_status != FLAC__STREAM_DECODER_INIT_STATUS_OK) {
+        log_info("ERROR: initializing decoder: %s\n",
+             FLAC__StreamDecoderInitStatusString[init_status]);
+        ok = false;
+    }
+
+    if (ok) {
+        ok = FLAC__stream_decoder_process_until_end_of_metadata(decoder);
+    }
+
+    if (ok) {
+        env->SetLongField(instance, decoder_field, (jlong) decoder);
+        env->SetLongField(instance, decoder_client_data_field, (jlong) client_data);
+        return client_data->result;
+    } else {
+        return NULL;
+    }
+}
 
 extern "C"
 JNIEXPORT jboolean JNICALL

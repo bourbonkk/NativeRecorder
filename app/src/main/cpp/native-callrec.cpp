@@ -17,7 +17,6 @@ bool getFunctionsAudioRecord(void *p_library) {
 	}
 
 	ar_dtor = (AudioRecord_dtor) (fake_dlsym(p_library, "_ZN7android11AudioRecordD2Ev"));
-	// 소멸자 한번더 확인
 	if (!ar_dtor) {
 		LOGI("ar_dtor import fail");
 	} else {
